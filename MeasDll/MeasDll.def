@@ -1,0 +1,50 @@
+; MeasDll.def : Declares the module parameters for the DLL.
+
+LIBRARY      "MeasDll"
+DESCRIPTION  'MeasDll Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+
+PreMeas
+FindPeriod
+
+;水平(时间)
+CalFrequency
+CalPeriod
+CalRiseTime
+CalFallTime
+CalPDutyCycle
+CalNDutyCycle
+CalPPulseWidth
+CalNPulseWidth
+CalPDelay12
+CalNDelay12
+
+;垂直(电压)
+CalMaxVolt
+CalMinVolt
+CalVpp
+CalTopVolt
+CalBaseVolt
+CalMidVolt
+CalRMS
+CalCRMS
+CalAmplitude
+CalMean
+CalCMean
+CalPreShoot
+CalOverShoot
+;
+CalAverage
+GetMaxMinData
+GetAmpData
+;
+CursorTime
+CursorFrequency
+CursorVoltage
+CursorTraceVoltage
+CursorFFTFrequency
+
+;
+AMCalSecondaryIgnitionPlugLead

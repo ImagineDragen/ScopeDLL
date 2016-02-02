@@ -1,0 +1,9 @@
+; HTFFTDll.def : Declares the module parameters for the DLL.
+
+LIBRARY      "HTFFTDll"
+DESCRIPTION  'HTFFTDll Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+
+	dsoHTFFT

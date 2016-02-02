@@ -1,0 +1,56 @@
+; HTLANDll.def : Declares the module parameters for the DLL.
+
+LIBRARY      "HTLANDll"
+DESCRIPTION  'HTLANDll Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+
+dsoLANSetCHPos
+dsoLANSetVTriggerLevel
+dsoLANSetHTriggerLength
+dsoLANSetCHAndTrigger
+dsoLANSetTriggerAndSyncOutput
+dsoLANSetSampleRate
+dsoLANStartCollectData
+dsoLANStartTrigger
+dsoLANForceTrigger
+dsoLANGetState
+dsoLANGetPackState
+dsoLANGetData
+dsoLANGetScanData
+dsoLANReadCalibrationData
+dsoLANWriteCalibrationData
+dsoLANGetRollData
+dsoLANOpenRollMode
+dsoLANCloseRollMode
+dsoLANSetPeakDetect
+dsoLANClosePeakDetect
+dsoLANGetHardFC
+dsoLANSetHardFC
+dsoLANResetCnter
+dsoLANStartRoll
+dsoLANInit
+dsoLANClose
+dsoLANOpenConnet
+dsoLANResetWIFI
+dsoSDLANGetData
+dsoLANGetRestartLANStatus
+dsoLANModeSetIPAddr
+dsoLANModeGetIPAddr
+ddsLANSetFrequency
+ddsLANSetCmd
+ddsLANSetSyncOut
+ddsLANDownload
+ddsLANSetOnOff
+dsoLANSetCHAndTriggerVB
+dsoLANInitSocket
+dsoLANGetHardVersion
+dsoSDLANGetRollData
+dsoSDLANGetScanData
+dsoLANGetFPGAVersion
+dsoLANGetLanEnable
+;
+dsoLANGetSDRamInit
+dsoLANInitSDRam
+dsoLANSetBufferSize

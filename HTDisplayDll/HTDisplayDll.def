@@ -1,0 +1,42 @@
+; HTDisplayDll.def : Declares the module parameters for the DLL.
+
+LIBRARY      "HTDisplayDll"
+DESCRIPTION  'HTDisplayDll Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here
+
+HTDrawGrid
+HTDrawKnob
+HTDrawRightPentagon
+HTDrawLeftPentagon
+HTDrawTopPentagon
+HTDrawBottomPentagon
+HTDrawCouplingImage
+HTDrawEdgeSlope
+HTDrawPulseWidth
+HTDrawDefineText
+HTDrawWaveInYT
+HTDrawCursorLine
+HTDrawCursorTraceLine
+HTDrawWaveInXY
+HTDrawPrintGrid
+HTDrawPrintGridBorder
+HTDrawAcquireMode
+HTDrawWaveInYTVB
+HTDrawSquareWaveInYT
+HTDrawGeneratorRect
+HTDrawLevel
+HTDrawGridBorder
+;;;
+HTDrawGridLA
+HTDrawGroupGridLA
+HTDrawLASquareSignal
+
+
+;;;
+UserRound
+HTDrawGridNew
+HTDrawWaveInXYNew
+HTDrawWaveInYTNew
+HTDrawGridARB

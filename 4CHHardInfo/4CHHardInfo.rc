@@ -1,0 +1,325 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Chinese (P.R.C.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\4CHHardInfo.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""l.chs\\afxres.rc""          // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\4CHHardInfo.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "关于"
+FONT 8, "Arial"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "版权所有 (C) 2010",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "确定",IDOK,178,7,50,14,WS_GROUP
+END
+
+IDD_MY4CHHARDINFO_DIALOG DIALOGEX 0, 0, 447, 313
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "产品信息输入工具 ( 更新日期:2011-11-29 )"
+FONT 9, "宋体"
+BEGIN
+    DEFPUSHBUTTON   "写入",IDC_BTN_WIRTE,370,237,60,25,BS_CENTER | 
+                    BS_VCENTER
+    PUSHBUTTON      "读取",IDC_BTN_READ,291,237,60,25,BS_CENTER | BS_VCENTER
+    LTEXT           "硬件信息区域总共64个字节的空间，每次读取或写入，都必须写满64个字节的长度。具体内容的分割可自行安排，建议写入之前先读取一次硬件信息，然后修改相应的内容。",
+                    IDC_STC_NOTES,77,242,39,15,NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_HARDINFO,25,242,50,13,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | NOT WS_VISIBLE | 
+                    WS_VSCROLL
+    RTEXT           "产品类型",IDC_STATIC1,13,26,73,8
+    RTEXT           "产品名称",IDC_STATIC2,13,44,73,8
+    RTEXT           "PCB版本号",IDC_STATIC5,13,77,73,8
+    RTEXT           "驱动版本号",IDC_STATIC6,297,271,18,8,WS_DISABLED
+    RTEXT           "生产小组",IDC_STATIC7,13,94,73,8
+    RTEXT           "包装小组",IDC_STATIC8,13,112,73,8
+    RTEXT           "产品SN",IDC_STATIC3,13,62,73,8
+    RTEXT           "生产日期",IDC_STATIC9,13,130,73,8
+    RTEXT           "测试日期",IDC_STATIC10,13,148,73,8
+    RTEXT           "测试员",IDC_STATIC11,13,166,73,8
+    EDITTEXT        IDC_EDIT1,91,24,106,12,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_EDIT2,91,42,106,12,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_EDIT3,91,75,106,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT4,297,271,20,12,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_EDIT5,91,92,106,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT6,91,110,106,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT7,91,60,106,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT8,91,128,106,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT9,91,146,106,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT10,91,164,106,12,ES_AUTOHSCROLL
+    RTEXT           "FPGA版本",IDC_STATIC4,297,271,36,8,WS_DISABLED
+    EDITTEXT        IDC_EDIT11,297,271,29,12,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "长度最多6位；格式：DSO，这项一般不需要修改",
+                    IDC_STATIC12,203,25,237,8
+    LTEXT           "长度最多8位；例如：DSO3064 USB ,则写入3064即可",
+                    IDC_STATIC13,203,43,237,8
+    LTEXT           "长度最多8位; 与标签序列号统一",IDC_STATIC14,203,62,237,
+                    8
+    LTEXT           "长度最多6位；格式：Fx.xx 例如：1.02, 则填入 F1.02",
+                    IDC_STATIC15,297,271,15,8,WS_DISABLED
+    LTEXT           "印刷在PCB板上;格式：Vx.xx 例如：1.01, 则填入 V1.01",
+                    IDC_STATIC16,203,77,237,8
+    LTEXT           "长度最多6位；格式：Dx.xx 例如：1.00, 则填入 D1.00",
+                    IDC_STATIC17,297,271,16,8,WS_DISABLED
+    LTEXT           "长度最多4位；格式：Mxxx 例如：1组, 则填入 M001",
+                    IDC_STATIC18,203,94,237,8
+    LTEXT           "长度最多4位；格式：Cxxx 例如：1组, 则填入 C001",
+                    IDC_STATIC19,203,112,237,8
+    LTEXT           "长度最多8位；例如：2010年9月26号, 则填入 20100926",
+                    IDC_STATIC20,203,130,237,8
+    LTEXT           "长度最多8位；例如：2010年9月26号, 则填入 20100926",
+                    IDC_STATIC21,203,148,237,8
+    LTEXT           "长度最多4位；格式：Txxx 例如：1号测试员, 则填入 T001",
+                    IDC_STATIC22,203,166,237,8
+    CONTROL         "网口 ----- 有网口打勾,无网口留空",IDC_CHK_LAN,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,35,281,168,12
+    CONTROL         "WIFI ----- 有WIFI打勾,无WIFI留空",IDC_CHK_WIFI,"Button",
+                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,229,271,167,
+                    12
+    GROUPBOX        "版本信息",IDC_STC_VERSION,7,7,433,257
+    GROUPBOX        "网络信息",IDC_STC_NET,13,294,45,11
+    PUSHBUTTON      "写入",IDC_BTN_WRITELAN,359,271,60,25,BS_CENTER | 
+                    BS_VCENTER | WS_DISABLED
+    LTEXT           "",IDC_STATIC_MAC,299,271,16,10,WS_DISABLED
+    PUSHBUTTON      "读取",IDC_BTN_READLAN,289,271,60,25,BS_CENTER | 
+                    BS_VCENTER | WS_DISABLED
+    COMBOBOX        IDC_COMBO1,91,216,110,218,CBS_DROPDOWNLIST | WS_DISABLED | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "IPAddress1",IDC_IPADDRESS_IP,"SysIPAddress32",
+                    WS_DISABLED | WS_TABSTOP,297,271,12,10
+    CONTROL         "IPAddress1",IDC_IPADDRESS_SUBMASK,"SysIPAddress32",
+                    WS_DISABLED | WS_TABSTOP,297,271,11,12
+    CONTROL         "IPAddress1",IDC_IPADDRESS_GATEWAY,"SysIPAddress32",
+                    WS_DISABLED | WS_TABSTOP,297,271,16,9
+    RTEXT           "型号",IDC_STATIC23,13,218,73,8
+    LTEXT           "长度最多2位；格式：DSO6XXXBX",IDC_STATIC24,203,216,237,
+                    8
+    LTEXT           "设备子网掩码",IDC_STATIC,297,271,16,13,SS_CENTERIMAGE | 
+                    WS_DISABLED
+    LTEXT           "端口",IDC_STATIC,297,271,19,10,SS_CENTERIMAGE | 
+                    WS_DISABLED
+    LTEXT           "默认网关",IDC_STATIC,297,271,17,12,SS_CENTERIMAGE | 
+                    WS_DISABLED
+    LTEXT           "MAC地址",IDC_STATIC,297,271,25,12,SS_CENTERIMAGE | 
+                    WS_DISABLED
+    EDITTEXT        IDC_EDIT_MAC0,297,271,29,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDIT_MAC1,297,271,29,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDIT_MAC2,297,271,29,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDIT_MAC3,297,271,29,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDIT_MAC4,297,271,29,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDIT_MAC5,297,271,29,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDIT_PORT,297,271,28,12,ES_CENTER | ES_AUTOHSCROLL | 
+                    ES_NUMBER | WS_DISABLED
+    EDITTEXT        IDC_EDIT12,321,210,76,14,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "MAC(十六进制):",IDC_STATIC,297,271,17,9,SS_CENTERIMAGE | 
+                    WS_DISABLED
+    LTEXT           "设备IP",IDC_STATIC,297,271,14,11,SS_CENTERIMAGE | 
+                    WS_DISABLED
+    LTEXT           "出厂默认IP为: 192.168.1.20",IDC_STATIC,297,271,19,10,
+                    SS_CENTERIMAGE | WS_DISABLED
+    LTEXT           "出厂默认子网掩码为: 255.255.255.0",IDC_STATIC,297,271,
+                    20,8,SS_CENTERIMAGE | WS_DISABLED
+    LTEXT           "出厂默认网关为: 192.168.1.1",IDC_STATIC,297,271,17,8,
+                    SS_CENTERIMAGE | WS_DISABLED
+    LTEXT           "每格数值范围: ( 0 - 255 )",IDC_STATIC,297,271,22,10,
+                    SS_CENTERIMAGE | WS_DISABLED
+    LTEXT           "(1 - 65535) 出厂默认端口为： 50000",IDC_STATIC,297,271,
+                    11,8,SS_CENTERIMAGE | WS_DISABLED
+    CONTROL         "DDS",IDC_CHECK_DDS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,91,182,28,10
+    CONTROL         "汽车测试",IDC_CHECK_AUTO,"Button",BS_AUTOCHECKBOX | 
+                    WS_DISABLED | WS_TABSTOP,131,182,48,10
+    COMBOBOX        IDC_COMBO_BW,91,196,109,73,CBS_DROPDOWN | WS_DISABLED | 
+                    WS_VSCROLL | WS_TABSTOP
+    RTEXT           "带宽",IDC_STATIC25,13,198,73,8
+    RTEXT           "辅助功能",IDC_STATIC26,13,182,73,8
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "\0"
+            VALUE "LegalCopyright", "版权所有 (C) 2010\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "应用程序\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_MY4CHHARDINFO_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 440
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 305
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_ABOUTBOX            "关于 (&A)..."
+END
+
+#endif    // Chinese (P.R.C.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE 4, 2
+#pragma code_page(936)
+#endif //_WIN32
+#include "res\4CHHardInfo.rc2"  // non-Microsoft Visual C++ edited resources
+#include "l.chs\afxres.rc"          // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
