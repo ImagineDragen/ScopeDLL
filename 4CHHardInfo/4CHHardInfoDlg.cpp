@@ -1260,8 +1260,7 @@ void CMy4CHHardInfoDlg::changgeSel()
 	x+=temp;
 	m_nSubVersion=x;
 	m_comboSubVersion.GetLBText(x,m_strSubVersion);
-	m_comboSubVersion.SetCurSel(x);
-	//upDateTheCtrs(m_nSubVersion);
+	m_comboSubVersion.SetCurSel(x);	
 	
 }
 
