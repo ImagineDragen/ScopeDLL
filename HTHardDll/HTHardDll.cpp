@@ -4923,9 +4923,12 @@ __int64		GetStartReadAddress(WORD DeviceIndex)  //其实这个是触发地址
     inBuffer=(PUCHAR) malloc(m_nSize);
     memset(inBuffer, 0,m_nSize);
     getInBuffer(DeviceIndex,m_nSize,inBuffer);
-    temp=(inBuffer[0]<< 0)|(inBuffer[1]<< 8)|(inBuffer[2]<<16)|(inBuffer[3]<<24)
-		|(inBuffer[4]<<32)|(inBuffer[5]<<40);//低位为采集jieshu 高位为
-
+	__int64  temp2=UCHAR(inBuffer[4])*0x100000000;
+    temp+=((ULONG)(inBuffer[0]))
+		+((ULONG)(inBuffer[1]))*0x100
+		+((ULONG)(inBuffer[2]))*0x10000
+		+((ULONG)(inBuffer[3]))*0x1000000;//低位为采集jieshu 高位为
+	temp=temp+temp2;
 	//temp=inBuffer[2]+(((ULONG)(inBuffer[3]))<<8);
     //起始时间
     free(inBuffer);//释放缓冲区
@@ -8262,11 +8265,11 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
     //根据触发地址计算起始读数地址
     //RamReadStartAddr=nTriggerAddress >= nPriTriggerLen?nTriggerAddress- nPriTriggerLen:0x10000 - (nPriTriggerLen - nTriggerAddress);
    // RamReadStartAddr=nEndAddress-nReadLen*nActivateCHNum+8;
-	RamReadStartAddr=nEndAddress-LONG(nActivateCHNum*((1-p)*nDataLen+p*nReadLen))+8-8;
+	RamReadStartAddr=nEndAddress-LONG(nActivateCHNum*((1-p)*nDataLen+p*nReadLen));
 	if(RamReadStartAddr<0)
 		RamReadStartAddr+=0x10000;
     //设置读数地址
-
+/*
 	if(RamReadStartAddr%8!=0)
 	{
 		if(RamReadStartAddr%8<=3)
@@ -8274,6 +8277,8 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
 		else
 			RamReadStartAddr+=8-RamReadStartAddr%8;
 	}
+	*/
+	nStartOffset=7-nStartOffset&0x07;
 	switch (nActivateCHNum){
 	case 4:
 		nStartOffset=nStartOffset&0x01+6;
@@ -8288,6 +8293,7 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
 		nStartOffset=0;
 		break;
 	}
+	//nStartOffset=0;
 	nStartOffset=nStartOffset*nActivateCHNum;
     SetReadAddress(nDeviceIndex,RamReadStartAddr+nStartOffset);//第二步 设置读取地址
     //设置读取长度并开始读数
