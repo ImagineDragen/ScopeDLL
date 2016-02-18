@@ -32,6 +32,7 @@ BOOL dsoGetHardVersion(WORD DeviceIndex);//
 
 
 */
+
 #include "stdafx.h"
 
 //////////////////////////////////////////////////////////
@@ -8226,9 +8227,30 @@ DLL_API WORD WINAPI dsoHTStartRoll(WORD nDeviceIndex)
     return status ;
 }
 */
+#ifdef FILE_TEST
+WORD SaveData(CString caption,CString valuestr)
+{
+	char* pFileName = "savedate.txt";	
+	CStdioFile file;
+	CFileException ex;	
+	CString str;
+	str.Format(_T("%s:%s\n"),caption,valuestr);
+
+	file.Open(pFileName ,CFile::modeWrite | CFile::modeCreate|CFile::modeNoTruncate ,&ex);
+	file.SeekToEnd( );
+
+	file.WriteString(str);
+
+	file.Close();
+	return TRUE;
+}
+#endif
+
+
+
 DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data,WORD* pCH3Data,WORD* pCH4Data,PCONTROLDATA pControl)
 {
-    WORD status = 0;
+	WORD status = 0;
     WORD* pCHData[MAX_CH_NUM];
     LONG RamReadStartAddr;//ULONG nTemp; // del by yt 20101009
 	unsigned int nOffSetall=0;
@@ -8305,6 +8327,86 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
     SetReadAddress(nDeviceIndex,RamReadStartAddr+nStartOffset);//第二步 设置读取地址
     //设置读取长度并开始读数
     status  = ReadHardData_6104(nDeviceIndex,ppData,nActivateCHNum,nActivateCHNum*nReadLen);//第三步 开始读书
+
+#ifdef FILE_TEST
+	CString str;
+	str.Format(_T("%d"),nTriggerAddress);
+	SaveData(_T("TriggerAddress"),str);
+
+	str.Format(_T("%d"),nEndAddress);
+	SaveData(_T("nEndAddress"),str);
+
+
+
+	str.Format(_T("%d"),nStartOffset);
+	SaveData(_T("nStartOffset"),str);
+
+	str.Format(_T("%d"),RamReadStartAddr);
+	SaveData(_T("RamReadStartAddr"),str);
+
+
+	/*
+			WORD nCHSet;
+        WORD nTimeDIV;
+        WORD nTriggerSource;
+        WORD nHTriggerPos;
+		WORD nVTriggerPos;
+		WORD nTriggerSlope;
+		ULONG nBufferLen;//对应于10K，1M，2M.....16M
+		ULONG nReadDataLen;//记录本次将要从硬件读取的数据总共长度
+		ULONG nAlreadyReadLen;//记录本次已经读取的数据长度，在扫描/滚动模式下有效,在NORMAL模式下无效
+    	WORD nALT;
+		WORD nETSOpen;
+		WORD nDriverCode;		//驱动编号
+		ULONG nLastAddress;
+	*/
+	str.Format(_T("%d"),pControl->nCHSet);
+	SaveData(_T("pControl->nCHSet"),str);
+
+	str.Format(_T("%d"),pControl->nTimeDIV);
+	SaveData(_T("pControl->nTimeDIV"),str);
+
+
+	str.Format(_T("%d"),pControl->nTriggerSource);
+	SaveData(_T("pControl->nTriggerSource"),str);
+
+	str.Format(_T("%d"),pControl->nHTriggerPos);
+	SaveData(_T("pControl->nHTriggerPos"),str);
+
+	str.Format(_T("%d"),pControl->nVTriggerPos);
+	SaveData(_T("pControl->nVTriggerPos"),str);
+
+
+	str.Format(_T("%d"),pControl->nTriggerSlope);
+	SaveData(_T("pControl->nTriggerSlope"),str);
+	
+	str.Format(_T("%d"),pControl->nBufferLen);
+	SaveData(_T("pControl->nBufferLen"),str);
+
+	str.Format(_T("%d"),pControl->nReadDataLen);
+	SaveData(_T("pControl->nReadDataLen"),str);
+
+
+
+	str.Format(_T("%d"),pControl->nAlreadyReadLen);
+	SaveData(_T("pControl->nAlreadyReadLen"),str);
+
+
+	str.Format(_T("%d"),pControl->nALT);
+	SaveData(_T("pControl->nALT"),str);
+	
+	str.Format(_T("%d"),pControl->nETSOpen);
+	SaveData(_T("pControl->nETSOpen"),str);
+
+	str.Format(_T("%d"),pControl->nDriverCode);
+	SaveData(_T("pControl->nDriverCode"),str);
+
+		str.Format(_T("%d"),pControl->nLastAddress);
+	SaveData(_T("pControl->nLastAddress"),str);
+
+
+
+#endif
     return status ;
 }
 DLL_API WORD WINAPI dsoHTOpenRollMode(WORD nDeviceIndex)
@@ -9194,7 +9296,6 @@ DLL_API ULONG WINAPI ddsDownload(WORD DeviceIndex,WORD iWaveNum, WORD* pData)
 }
 DLL_API ULONG WINAPI ddsEmitSingle(WORD DeviceIndex)
 {
-
     BOOL status=FALSE;
     UINT m_nSize=4;
 	PUCHAR outBuffer = NULL;

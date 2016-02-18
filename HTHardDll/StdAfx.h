@@ -16,11 +16,11 @@
 
 //#include <Afxwin.h>
 //#define FILE_TEST
-
+//#define FILE_TEST//add by zhang
 #ifdef FILE_TEST
-#include "afx.h"
+	#include "afx.h"
 #else
-#include <windows.h>
+	#include <windows.h>
 #endif
 // TODO: reference additional headers your program requires here
 
