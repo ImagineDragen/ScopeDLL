@@ -1,15 +1,12 @@
 #ifndef _HT_HARD_DLL_H
 #define _HT_HARD_DLL_H
-
-#ifndef DLL_API
-#define DLL_API extern "C" __declspec(dllimport)
-#endif
+//#ifndef DLL_API
+//#define DLL_API extern "C" 11// __declspec(dllimport)
+//#endif
 
 #define WIN_API __stdcall
 
-#include "windows.h"   //zhang
-#include "D:/From_Peng/Scope/DefMacro.h"  //zhang
-#include "D:/From_Peng/HTSoftDll/HTSoftDll.h"
+#include "windows.h"  
 #define HEAD_DATA 0x0174
 typedef struct _HT_RELAY_CONTROL
 {
@@ -136,8 +133,6 @@ DLL_API WORD WINAPI dsoSetLANEnable(WORD DeviceIndex,short nEnable);
 //2015.02.04 新添 批量数据读取时的强制中断
 //DLL_API WORD WINAPI dsoSDGetData_Suspend(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data,WORD* pCH3Data,WORD* pCH4Data,PCONTROLDATA pControl,WORD nInsertMode,USHORT* nSuspend);
 
-//-----------LA--------------
-DLL_API BOOL WINAPI laSetTrigSource(WORD DeviceIndex,unsigned char nSour);
 
 //-----------DDS--------------
 DLL_API ULONG WINAPI ddsSetOnOff(WORD DeviceIndex,short nOnOff);
@@ -154,8 +149,8 @@ DLL_API WORD WINAPI dsoHTWRADCCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen);
 DLL_API WORD WINAPI dsoHTRDADCCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen);
 DLL_API WORD WINAPI dsoInitADCOnce(WORD DeviceIndex);
 DLL_API WORD WINAPI dsoHTADCCHModGain(WORD DeviceIndex,WORD nCHMod);
-DLL_API WORD WINAPI dsoHTSetAmpCalibrate(WORD nDeviceIndex,WORD nCHSet,WORD nTimeDIV,WORD *pLevel,WORD *nVoltDiv  ,WORD *pCHPos);
-DLL_API WORD WINAPI dsoHTsetRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WORD nTrigerSource,WORD nPeak);//设置触发源
+DLL_API WORD WINAPI dsoHTSetAmpCalibrate(WORD nDeviceIndex,WORD nCHSet,WORD nTimeDIV,WORD *pLevel,WORD *nVoltDiv,WORD *pCHPos);
+DLL_API WORD WINAPI dsoHTSetRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WORD nTrigerSource,WORD nPeak);//设置触发源
 DLL_API WORD WINAPI dsoHTSetADC(WORD DeviceIndex, PRELAYCONTROL RelayControl, WORD nTimeDIV);
 DLL_API WORD WINAPI dsoHTSetTrigerMode(WORD m_nDeviceIndex,WORD nTriggerMode,WORD nTriggerSlop,WORD nTriggerCouple);
 DLL_API WORD WINAPI dsoHTSetVideoTriger(WORD m_nDeviceIndex,USHORT nStand,USHORT nVedioSyncSelect,USHORT nVideoHsyncNumOption,USHORT nVideoPositive,WORD nLevel,WORD nLogicTriggerSource);

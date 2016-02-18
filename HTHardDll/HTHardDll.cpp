@@ -1216,6 +1216,7 @@ WORD SetTriggerLength(WORD DeviceIndex,ULONG nBufferLen,WORD nHTriggerPos,WORD n
     UINT m_nSize=14;
     WORD status=FALSE;
 	ULONG nPre,nTrg;
+	UINT nOffsetTime=0;
     __int64 nPreL,nTrgL;//nPreUp,nPreLow,nTrgUp,nTrgLow;
     ULONG nMaxLength = 0x10000;//64K
 	//int nOpenCHNum=0;
@@ -1331,8 +1332,11 @@ WORD SetTriggerLength(WORD DeviceIndex,ULONG nBufferLen,WORD nHTriggerPos,WORD n
 	nPre = ULONG(nHTriggerPos * nBufferLen / 100.0);
 	nTrg = nBufferLen-nPre+8;	
 	nPre=nPre+100;
-	nPreL=__int64(nPre*dDivNum/8);	
+	nPreL=__int64((nPre*dDivNum)/8);	
 	nTrgL=__int64(nTrg*dDivNum/8);
+
+	
+	
 	if(dDivNum<200)
 	{
 		if(nPre*dDivNum/8-int(nPre*dDivNum/8)!=0)
@@ -7555,11 +7559,7 @@ WORD        WRADCCali(WORD DeviceIndex,WORD* level,WORD length)
     return bResult;
 }
 
-DLL_API WORD WINAPI  dsoHTWRADCCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen)
-{
-    return WRADCCali(nDeviceIndex,pLevel,nLen);
 
-}
 
 WORD        WRAmpCali(WORD DeviceIndex,WORD* level,WORD length)
 {
@@ -7586,11 +7586,7 @@ WORD        WRAmpCali(WORD DeviceIndex,WORD* level,WORD length)
     return bResult;
 }
 
-DLL_API WORD WINAPI  dsoHTWRAmpCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen)
-{
-    return WRAmpCali(nDeviceIndex,pLevel,nLen);
 
-}
 
 WORD        RDAmpCali(WORD DeviceIndex,WORD* level,WORD length)
 {
@@ -7619,15 +7615,26 @@ WORD        RDAmpCali(WORD DeviceIndex,WORD* level,WORD length)
     return bResult;
 }
 
-DLL_API WORD WINAPI  dsoHTRDAmpCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen)
-{
-    return RDAmpCali(nDeviceIndex,pLevel,nLen);
-}
+
 
 
 //Export--Hard Functions////////////////////////////////////////////////////////////////////////////////////////
 
 //读取校对电平数据
+DLL_API WORD WINAPI  dsoHTWRADCCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen)
+{
+    return WRADCCali(nDeviceIndex,pLevel,nLen);
+
+}
+DLL_API WORD WINAPI  dsoHTWRAmpCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen)
+{
+    return WRAmpCali(nDeviceIndex,pLevel,nLen);
+
+}
+DLL_API WORD WINAPI  dsoHTRDAmpCali(WORD nDeviceIndex,WORD* pLevel,WORD nLen)
+{
+    return RDAmpCali(nDeviceIndex,pLevel,nLen);
+}
 DLL_API WORD WINAPI dsoHTReadCalibrationData(WORD nDeviceIndex,WORD* pLevel,WORD nLen)
 {
     return GetChannelLevel(nDeviceIndex,pLevel,nLen);
@@ -10125,7 +10132,7 @@ WORD        setRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WO
     outBuffer[5]=0xFF&((nDisableTri<<2)|nLogicTriggerSource);
     return sendOutBuffer(DeviceIndex,m_nSize,outBuffer);
 }
-DLL_API WORD WINAPI dsoHTsetRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WORD nTrigerSource,WORD nPeak)
+DLL_API WORD WINAPI dsoHTSetRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WORD nTrigerSource,WORD nPeak)
 {
     return setRamAndTrigerControl(DeviceIndex, nTimeDiv,nCHset,nTrigerSource,nPeak);
 }

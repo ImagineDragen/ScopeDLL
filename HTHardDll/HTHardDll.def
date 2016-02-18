@@ -73,3 +73,20 @@ dsoGetDriverVersion
 ;test
 dsoSetUSBBus
 dsoSetSPIBus
+
+;add by zhang 
+ddsEmitSingle
+dsoHTWRAmpCali
+dsoHTRDAmpCali
+dsoHTWRADCCali
+dsoHTRDADCCali
+dsoInitADCOnce
+dsoHTADCCHModGain
+dsoHTSetAmpCalibrate
+dsoHTSetRamAndTrigerControl
+dsoHTSetADC
+dsoHTSetTrigerMode
+dsoHTSetVideoTriger
+dsoHTSetPulseTriger
+dsoSetDDSCali
+dsoGetDDSCali

@@ -1834,6 +1834,7 @@ DLL_API void WINAPI HTDrawWaveInYT(HDC hDC,				//绘图句柄
 		*(pDisData+i) = USHORT(nTemp);
 	}
 //
+
 #ifndef MINISCOPE
 	if(nDisDataLen < 2 && nDisType == VECTORS)//如果屏幕上不足10个点，则直接画点
 	{
