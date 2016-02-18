@@ -10206,7 +10206,7 @@ WORD        setRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WO
         break;
     case 2:
         if(nOpenCH==1)
-            nLogicTriggerSource=0x00;
+            nLogicTriggerSource=nCHset==1||nCHset==4?0:1;
         else
             nLogicTriggerSource=(nCHset>>nTrigerSource)==0x01?0x01:0x00;
         break;
