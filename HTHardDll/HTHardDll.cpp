@@ -7979,9 +7979,9 @@ DLL_API WORD WINAPI dsoHTSetVTriggerLevel(WORD nDeviceIndex,WORD* pLevel,WORD nP
 }
 
 //设置触发长度和预触发长度(包括Trigger水平位置)-->参数nBufferLen 必须是512的整数倍数,且不能>16M
-DLL_API WORD WINAPI dsoHTSetHTriggerLength(WORD nDeviceIndex,ULONG nBufferLen,WORD HTriggerPos,WORD nTimeDIV,WORD nCHMod)
+DLL_API WORD WINAPI dsoHTSetHTriggerLength(WORD nDeviceIndex,PCONTROLDATA pControl,WORD nCHMod)
 {
-    return SetTriggerLength(nDeviceIndex,nBufferLen,HTriggerPos,nTimeDIV,nCHMod);
+    return SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,nCHMod);
 }
 
 //此函数目前无效，无需调用

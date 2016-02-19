@@ -19,8 +19,9 @@ typedef struct _HT_CONTROL_DATA
 		ULONG nAlreadyReadLen;//记录本次已经读取的数据长度，在扫描/滚动模式下有效,在NORMAL模式下无效
     	WORD nALT;
 		WORD nETSOpen;
-		WORD nDriverCode;		//驱动编号
+		WORD nDriverCode;		//驱动编号		
 		ULONG nLastAddress;  //add by zhang to fit DSO6104    记录扫描模式上次读取的终止地址
+		WORD nFPGAVersion;
 		//WORD nAddressOffset;//触发抖动加偏移
 		
 		
