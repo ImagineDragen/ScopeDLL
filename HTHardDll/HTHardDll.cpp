@@ -1210,7 +1210,117 @@ WORD SetTriggerLength(WORD DeviceIndex,ULONG nBufferLen,WORD nHTriggerPos,WORD n
     return status;
 }
 */
-WORD SetTriggerLength(WORD DeviceIndex,ULONG nBufferLen,WORD nHTriggerPos,WORD nTimeDIV,WORD nCHMod)//设置触发长度
+long getTriggerOffset(WORD nFpgaVersion){
+	long nR=0;
+	switch (nFpgaVersion){
+	case 0xA000:
+		nR=230;//230nS
+		break;
+	default:
+		break;
+	}
+	return nR;
+		 
+}
+double getDivNum(WORD nTimeDIV,WORD nCHMod){
+    double dDivNum;
+	if(nTimeDIV<=TIMEDIV_500MSA)
+	{
+		dDivNum=nCHMod;
+		return dDivNum;
+	}	
+    switch (nTimeDIV) {
+    case TIMEDIV_250MSA ://1uS
+        dDivNum=4;
+        break;			
+    case TIMEDIV_250MSA+1://2uS
+        dDivNum=8;
+        break;
+    case TIMEDIV_250MSA+2://5uS
+        dDivNum=2e1;
+        break;
+    case TIMEDIV_250MSA+3://10uS
+        dDivNum=4e1;
+        break;
+    case TIMEDIV_250MSA+4://20uS
+        dDivNum=8e1;
+        break;
+    case TIMEDIV_250MSA+5://50uS
+        dDivNum=2e2;
+        break;
+    case TIMEDIV_250MSA+6://100uS
+        dDivNum=4e2;
+        break;
+    case TIMEDIV_250MSA+7://200uS
+        dDivNum=8e2;
+        break;
+    case TIMEDIV_250MSA+8://500uS
+        dDivNum=2e3;
+        break;
+    case TIMEDIV_250MSA+9://1mS
+        dDivNum=4e3;
+        break;
+    case TIMEDIV_250MSA+10://2mS
+        dDivNum=8e3;
+        break;
+    case TIMEDIV_250MSA+11://5mS
+        dDivNum=2e4;
+        break;
+    case TIMEDIV_250MSA+12://10mS
+        dDivNum=4e4;
+        break;
+    case TIMEDIV_250MSA+13://20mS
+        dDivNum=8e4;
+        break;
+    case TIMEDIV_250MSA+14://50mS
+        dDivNum=2e5;
+        break;
+    case TIMEDIV_250MSA+15://100mS
+        dDivNum=4e5;
+        break;
+    case TIMEDIV_250MSA+16://200mS
+        dDivNum=8e5;
+        break;
+    case TIMEDIV_250MSA+17://500mS
+        dDivNum=2e6;
+        break;
+    case TIMEDIV_250MSA+18://1S
+        dDivNum=4e6;
+        break;
+    case TIMEDIV_250MSA+19://2S
+        dDivNum=8e6;
+        break;
+    case TIMEDIV_250MSA+20://5S
+        dDivNum=2e7;
+        break;
+    case TIMEDIV_250MSA+21://10S
+        dDivNum=4e7;
+        break;
+    case TIMEDIV_250MSA+22://20S
+        dDivNum=8e7;
+        break;
+    case TIMEDIV_250MSA+23://50S
+        dDivNum=2e8;
+        break;
+    case TIMEDIV_250MSA+24://100S
+        dDivNum=4e8;
+        break;
+    case TIMEDIV_250MSA+25://200S
+        dDivNum=8e8;
+        break;
+    case TIMEDIV_250MSA+26://500S
+        dDivNum=2e9;
+        break;
+    case TIMEDIV_250MSA+27://1000S
+        dDivNum=4e9;
+        break;
+    default:
+        dDivNum=1;
+        break;        
+    }
+    return dDivNum;
+}
+WORD SetTriggerLength(WORD DeviceIndex,ULONG nBufferLen,WORD nHTriggerPos,WORD nTimeDIV,WORD nFPGAVersion,WORD nCHMod)//设置触发长度
 {
 //	nHTriggerPos=50;
     PUCHAR outBuffer = NULL;
@@ -1220,124 +1330,15 @@ WORD SetTriggerLength(WORD DeviceIndex,ULONG nBufferLen,WORD nHTriggerPos,WORD n
 	UINT nOffsetTime=0;
     __int64 nPreL,nTrgL;//nPreUp,nPreLow,nTrgUp,nTrgLow;
     ULONG nMaxLength = 0x10000;//64K
-	//int nOpenCHNum=0;
-	double dDivNum=0;
-/*
-	for(int i=0;i<MAX_CH_NUM;i++)
-	{
-		if((nCHSet>>i)&0x01)
-		{
-			nOpenCHNum++; 
-		}
-	}*/
-	if(nTimeDIV<=TIMEDIV_500MSA)
-	{
-		dDivNum=nCHMod;
-
-	}
-	else
-	{
-		switch (nTimeDIV) {
-			case TIMEDIV_250MSA ://1uS
-			dDivNum=4;
-			break;			
-			case TIMEDIV_250MSA+1://2uS
-			dDivNum=8;
-			break;
-			case TIMEDIV_250MSA+2://5uS
-			dDivNum=2e1;
-			break;
-			case TIMEDIV_250MSA+3://10uS
-			dDivNum=4e1;
-			break;
-			case TIMEDIV_250MSA+4://20uS
-			dDivNum=8e1;
-			break;
-			case TIMEDIV_250MSA+5://50uS
-			dDivNum=2e2;
-			break;
-			case TIMEDIV_250MSA+6://100uS
-			dDivNum=4e2;
-			break;
-			case TIMEDIV_250MSA+7://200uS
-			dDivNum=8e2;
-			break;
-			case TIMEDIV_250MSA+8://500uS
-			dDivNum=2e3;
-			break;
-			case TIMEDIV_250MSA+9://1mS
-			dDivNum=4e3;
-			break;
-			case TIMEDIV_250MSA+10://2mS
-			dDivNum=8e3;
-			break;
-			case TIMEDIV_250MSA+11://5mS
-			dDivNum=2e4;
-			break;
-			case TIMEDIV_250MSA+12://10mS
-			dDivNum=4e4;
-			break;
-			case TIMEDIV_250MSA+13://20mS
-			dDivNum=8e4;
-			break;
-			case TIMEDIV_250MSA+14://50mS
-			dDivNum=2e5;
-			break;
-			case TIMEDIV_250MSA+15://100mS
-			dDivNum=4e5;
-			break;
-			case TIMEDIV_250MSA+16://200mS
-			dDivNum=8e5;
-			break;
-			case TIMEDIV_250MSA+17://500mS
-			dDivNum=2e6;
-			break;
-			case TIMEDIV_250MSA+18://1S
-			dDivNum=4e6;
-			break;
-			case TIMEDIV_250MSA+19://2S
-			dDivNum=8e6;
-			break;
-			case TIMEDIV_250MSA+20://5S
-			dDivNum=2e7;
-			break;
-			case TIMEDIV_250MSA+21://10S
-			dDivNum=4e7;
-			break;
-			case TIMEDIV_250MSA+22://20S
-			dDivNum=8e7;
-			break;
-			case TIMEDIV_250MSA+23://50S
-			dDivNum=2e8;
-			break;
-			case TIMEDIV_250MSA+24://100S
-			dDivNum=4e8;
-			break;
-			case TIMEDIV_250MSA+25://200S
-			dDivNum=8e8;
-			break;
-			case TIMEDIV_250MSA+26://500S
-			dDivNum=2e9;
-			break;
-			case TIMEDIV_250MSA+27://1000S
-			dDivNum=4e9;
-			break;
-			default:
-			dDivNum=1;
-			break;
-			
-		}
-	}
+	double dDivNum=getDivNum(nTimeDIV,nCHMod);
 	nBufferLen=nBufferLen>nMaxLength?nMaxLength:nBufferLen;
 	
 	nPre = ULONG(nHTriggerPos * nBufferLen / 100.0);
 	nTrg = nBufferLen-nPre+8;	
 	nPre=nPre+100;
-	nPreL=__int64((nPre*dDivNum)/8);	
+	nPreL=__int64((nPre*dDivNum+getTriggerOffset(nFPGAVersion))/8);	
 	nTrgL=__int64(nTrg*dDivNum/8);
 
-	
-	
 	if(dDivNum<200)
 	{
 		if(nPre*dDivNum/8-int(nPre*dDivNum/8)!=0)
@@ -1345,7 +1346,6 @@ WORD SetTriggerLength(WORD DeviceIndex,ULONG nBufferLen,WORD nHTriggerPos,WORD n
 		if(nTrg*dDivNum/8-int(nTrg*dDivNum/8)!=0)
 			nTrgL++;
 	}
-
 	outBuffer=(PUCHAR) malloc(m_nSize);
     outBuffer[0]=0x10;
     outBuffer[1]=0x00;
@@ -5863,7 +5863,7 @@ WORD GetPreTrigData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data,WORD* pCH3Da
     WORD* pCHData[MAX_CH_NUM];
     ULONG RamReadStartAddr;//确定读数开始地址
     ULONG i = 0;
-	WORD nStartOffset = 0;
+	int nStartOffset = 0;
     ULONG nPreDataLen = 0,nPriTriggerLen;//预触发长度前面是单个通道后面是总的长度
 	unsigned int nTriggerAddress;
     unsigned int nEndAddress;
@@ -5900,19 +5900,23 @@ WORD GetPreTrigData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data,WORD* pCH3Da
 	
 	switch (nActivateCHNum){
 	case 4:
-		nStartOffset=nStartOffset&0x01+6;
+		nStartOffset=(nStartOffset&0x01)-6;
 		break;
 	case 2:
-		nStartOffset=nStartOffset&0x03+4;
+		nStartOffset=(nStartOffset&0x03)-4;
 		break;
 	case 1:
-		nStartOffset=nStartOffset&0x07;
+		nStartOffset=(nStartOffset&0x07);
 		break;
 	default :
 		nStartOffset=0;
 		break;
 	}
-	nPreDataLen=nPreDataLen>=nStartOffset?nPreDataLen-nStartOffset:0;
+	if(nPreDataLen>=WORD(abs(nStartOffset)))
+		nPreDataLen=nPreDataLen-nStartOffset;
+	else{
+		nPreDataLen=nStartOffset<0?nPreDataLen-nStartOffset:0;
+	}
 	nStartOffset=nStartOffset*nActivateCHNum;
 
 	nPriTriggerLen = nActivateCHNum*nPreDataLen;//预触发长度   算法和以前不一样了需要考虑通道数//by zhang
@@ -7981,7 +7985,7 @@ DLL_API WORD WINAPI dsoHTSetVTriggerLevel(WORD nDeviceIndex,WORD* pLevel,WORD nP
 //设置触发长度和预触发长度(包括Trigger水平位置)-->参数nBufferLen 必须是512的整数倍数,且不能>16M
 DLL_API WORD WINAPI dsoHTSetHTriggerLength(WORD nDeviceIndex,PCONTROLDATA pControl,WORD nCHMod)
 {
-    return SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,nCHMod);
+    return SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,pControl->nFPGAVersion,nCHMod);
 }
 
 //此函数目前无效，无需调用
@@ -8057,7 +8061,7 @@ DLL_API WORD WINAPI dsoHTSetSampleRate(WORD nDeviceIndex,WORD *pAmpLevel,WORD nY
 	
     SetAboutInputAdc_Only_DSO6104(nDeviceIndex,pRelayControl,pControl->nTimeDIV);
     status=SetSampleRate_DSO6104(nDeviceIndex,pControl->nTimeDIV,nYTFormat);
-	SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,HDGetCHMode(pControl->nCHSet,pControl->nTimeDIV));
+	SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,pControl->nFPGAVersion,HDGetCHMode(pControl->nCHSet,pControl->nTimeDIV));
     return status;
 }
 
@@ -8249,9 +8253,13 @@ WORD SaveData(CString caption,CString valuestr)
 
 
 DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data,WORD* pCH3Data,WORD* pCH4Data,PCONTROLDATA pControl)
-{
+{	
 	WORD status = 0;
-    WORD* pCHData[MAX_CH_NUM];
+    WORD* pCHData[MAX_CH_NUM];	
+    WORD nCHMod=HDGetCHMode(pControl->nCHSet,pControl->nTimeDIV);
+	long nTriggerTimeOffset=getTriggerOffset(pControl->nFPGAVersion);
+	double dDivnum=getDivNum(pControl->nTimeDIV,nCHMod);
+	WORD nTimeOffset=dDivnum>0?WORD(nTriggerTimeOffset/dDivnum):0;
     LONG RamReadStartAddr;//ULONG nTemp; // del by yt 20101009
 	unsigned int nOffSetall=0;
     unsigned int nTriggerAddress;
@@ -8263,7 +8271,7 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
     __int64  nAddress = GetStartReadAddress(nDeviceIndex);
 	nTriggerAddress=WORD(nAddress&0xFFFF);               //触发地址
     nEndAddress=WORD((nAddress>>16)&0xFFFF);             //采集结束地址
-	ULONG nStartOffset=WORD((nAddress>>32)&0xFFFF);
+	long nStartOffset=WORD((nAddress>>32)&0xFFFF);
 
     PWORD ppData[4];
     int nActivateCHNum=0;//物理上所开的通道数目
@@ -8307,24 +8315,28 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
 			RamReadStartAddr+=8-RamReadStartAddr%8;
 	}
 	*/
+	
 	nStartOffset=7-nStartOffset&0x07;
 	switch (nActivateCHNum){
 	case 4:
-		nStartOffset=nStartOffset&0x01+6;
+		nStartOffset=(nStartOffset&0x01)-6;
 		break;
 	case 2:
-		nStartOffset=nStartOffset&0x03+4;
+		nStartOffset=(nStartOffset&0x03)-4;
 		break;
 	case 1:
-		nStartOffset=nStartOffset&0x07;
+		nStartOffset=(nStartOffset&0x07);
 		break;
 	default :
 		nStartOffset=0;
 		break;
 	}
 	//nStartOffset=0;
-	nStartOffset=nStartOffset*nActivateCHNum;
-    SetReadAddress(nDeviceIndex,RamReadStartAddr+nStartOffset);//第二步 设置读取地址
+	nStartOffset*=nActivateCHNum;
+	RamReadStartAddr=RamReadStartAddr+nStartOffset-nTimeOffset*nActivateCHNum;
+	if(RamReadStartAddr<0)
+		RamReadStartAddr+=0x10000;
+    SetReadAddress(nDeviceIndex,RamReadStartAddr);//第二步 设置读取地址
     //设置读取长度并开始读数
     status  = ReadHardData_6104(nDeviceIndex,ppData,nActivateCHNum,nActivateCHNum*nReadLen);//第三步 开始读书
 
@@ -8336,30 +8348,12 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
 	str.Format(_T("%d"),nEndAddress);
 	SaveData(_T("nEndAddress"),str);
 
-
-
 	str.Format(_T("%d"),nStartOffset);
 	SaveData(_T("nStartOffset"),str);
 
 	str.Format(_T("%d"),RamReadStartAddr);
 	SaveData(_T("RamReadStartAddr"),str);
 
-
-	/*
-			WORD nCHSet;
-        WORD nTimeDIV;
-        WORD nTriggerSource;
-        WORD nHTriggerPos;
-		WORD nVTriggerPos;
-		WORD nTriggerSlope;
-		ULONG nBufferLen;//对应于10K，1M，2M.....16M
-		ULONG nReadDataLen;//记录本次将要从硬件读取的数据总共长度
-		ULONG nAlreadyReadLen;//记录本次已经读取的数据长度，在扫描/滚动模式下有效,在NORMAL模式下无效
-    	WORD nALT;
-		WORD nETSOpen;
-		WORD nDriverCode;		//驱动编号
-		ULONG nLastAddress;
-	*/
 	str.Format(_T("%d"),pControl->nCHSet);
 	SaveData(_T("pControl->nCHSet"),str);
 
