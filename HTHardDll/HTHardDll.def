@@ -84,9 +84,9 @@ dsoInitADCOnce
 dsoHTADCCHModGain
 dsoHTSetAmpCalibrate
 dsoHTSetRamAndTrigerControl
-dsoHTSetADC
 dsoHTSetTrigerMode
 dsoHTSetVideoTriger
 dsoHTSetPulseTriger
 dsoSetDDSCali
 dsoGetDDSCali
+dsoHTSetSampleRateVi

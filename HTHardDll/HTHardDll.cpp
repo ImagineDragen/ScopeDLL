@@ -2976,11 +2976,6 @@ WORD        SetADC(WORD DeviceIndex, PRELAYCONTROL RelayControl, WORD nTimeDIV)
 
 
 }*/
-DLL_API WORD WINAPI dsoHTSetADC(WORD DeviceIndex, PRELAYCONTROL RelayControl, WORD nTimeDIV)
-{
-	return 1;
-//	return SetADC(DeviceIndex, RelayControl,nTimeDIV);
-}
 
 
 WORD        SetAboutInputChannelAndTrigger_6104(WORD DeviceIndex,PRELAYCONTROL RelayControl)
@@ -8008,22 +8003,20 @@ DLL_API WORD WINAPI dsoHTSetCHAndTriggerDirect(WORD nDeviceIndex,PRELAYCONTROL p
 }
 
 //设置CH和Trigger Source and Trigger Filt
-DLL_API WORD WINAPI dsoHTSetCHAndTrigger(WORD nDeviceIndex,PRELAYCONTROL pRelayControl,WORD nDriverCode,PCONTROLDATA pControl)
+DLL_API WORD WINAPI dsoHTSetCHAndTrigger(WORD nDeviceIndex,PRELAYCONTROL pRelayControl,WORD nTimeDIV)
 {
     BOOL status=FALSE;
 	//SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,pControl->nCHSet);//
     //Sleep(1);
     status=SetAboutInputChannelAndTrigger_6104(nDeviceIndex,pRelayControl);
     //Sleep(1);
-    //status=setAmpCalibrate(nDeviceIndex,pControl,);
-   
-    status=SetAboutInputAdc_Only_DSO6104(nDeviceIndex,pRelayControl,pControl->nTimeDIV);
+    //status=setAmpCalibrate(nDeviceIndex,pControl,);   
+    status=SetAboutInputAdc_Only_DSO6104(nDeviceIndex,pRelayControl,nTimeDIV);
    // Sleep(1);
     return status;
 
 }
-
-DLL_API WORD WINAPI dsoHTSetCHAndTriggerVB(WORD nDeviceIndex,WORD* pCHEnable,WORD* pCHVoltDIV,WORD* pCHCoupling,WORD* pCHBWLimit,WORD nTriggerSource,WORD nTriggerFilt,WORD nALT,WORD nDriverCode)
+DLL_API WORD WINAPI dsoHTSetCHAndTriggerVB(WORD nDeviceIndex,WORD* pCHEnable,WORD* pCHVoltDIV,WORD* pCHCoupling,WORD* pCHBWLimit,WORD nTriggerSource,WORD nTriggerFilt,WORD nALT,WORD nTimeDIV)
 {
     RELAYCONTROL RelayControl;
     for(int i = 0;i<MAX_CH_NUM;i++)
@@ -8036,8 +8029,7 @@ DLL_API WORD WINAPI dsoHTSetCHAndTriggerVB(WORD nDeviceIndex,WORD* pCHEnable,WOR
         RelayControl.bTrigFilt = nTriggerFilt;
         RelayControl.nALT = nALT;
     }
-	return 0;
-    //return dsoHTSetCHAndTrigger(nDeviceIndex,&RelayControl,nDriverCode,6);
+    return dsoHTSetCHAndTrigger(nDeviceIndex,&RelayControl,nTimeDIV);
 }
 
 //设置Trigger和同步输出
@@ -8064,7 +8056,27 @@ DLL_API WORD WINAPI dsoHTSetSampleRate(WORD nDeviceIndex,WORD *pAmpLevel,WORD nY
 	SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,pControl->nFPGAVersion,HDGetCHMode(pControl->nCHSet,pControl->nTimeDIV));
     return status;
 }
+DLL_API WORD WINAPI dsoHTSetSampleRateVi(WORD nDeviceIndex,WORD *pAmpLevel,WORD* pCHEnable,WORD* pCHVoltDIV,WORD* pCHCoupling,WORD* pCHBWLimit,WORD nTriggerSource,WORD nTriggerFilt,
+										 WORD nALT,PCONTROLDATA pControl)
+{
+	RELAYCONTROL RelayControl;
+    for(int i = 0;i<MAX_CH_NUM;i++)
+    {
+        RelayControl.bCHEnable[i] = pCHEnable[i];
+        RelayControl.nCHVoltDIV[i] = pCHVoltDIV[i];
+        RelayControl.nCHCoupling[i] = pCHCoupling[i];
+        RelayControl.bCHBWLimit[i] = pCHBWLimit[i];
+        RelayControl.nTrigSource = nTriggerSource;
+        RelayControl.bTrigFilt = nTriggerFilt;
+        RelayControl.nALT = nALT;
+    }
+	WORD status;
+	SetAboutInputAdc_Only_DSO6104(nDeviceIndex,&RelayControl,pControl->nTimeDIV);
+    status=SetSampleRate_DSO6104(nDeviceIndex,pControl->nTimeDIV,0);
+	SetTriggerLength(nDeviceIndex,pControl->nBufferLen,pControl->nHTriggerPos,pControl->nTimeDIV,pControl->nFPGAVersion,HDGetCHMode(pControl->nCHSet,pControl->nTimeDIV));
+    return status;
 
+}
 //初始化SDRam
 DLL_API WORD WINAPI dsoHTSetAmpCalibrate(WORD nDeviceIndex,WORD nCHSet,WORD nTimeDIV,WORD *pLevel,WORD *nVoltDiv,WORD *pCHPos)
 {
