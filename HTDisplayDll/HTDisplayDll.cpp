@@ -1018,7 +1018,8 @@ DLL_API void WINAPI HTDrawKnob(HDC hDC,WORD nTotalScale,COLORREF color,WORD nSca
 	p=(nScaleValue)*1.0/(nTotalScale-1);
 	if(p<0) p=0; else if(p>1) p=1;
 	double dAngel=(0.25+1.5*p)*PI;
-	pen.SetColor(Color(255,233,233,200));
+	//pen.SetColor(Color(255,233,233,200));
+	pen.SetColor(Color(160,255-GetRValue(color),255-GetGValue(color),255-GetBValue(color)));
 	pen.SetWidth(2);
 	deep=(int)((float)width/3.5); 
 	double xOffset=sin(dAngel)*deep;

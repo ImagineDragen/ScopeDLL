@@ -416,7 +416,24 @@ WORD SetDeviceIP(WORD DeviceIndex,ULONG nIP,ULONG nSubnetMask,ULONG nGateway,USH
 
     return 1;
 }
-//
+#ifdef FILE_TEST
+WORD SaveData(CString caption,CString valuestr)
+{
+	char* pFileName = "savedate.txt";	
+	CStdioFile file;
+	CFileException ex;	
+	CString str;
+	str.Format(_T("%s:%s\n"),caption,valuestr);
+
+	file.Open(pFileName ,CFile::modeWrite | CFile::modeCreate|CFile::modeNoTruncate ,&ex);
+	file.SeekToEnd( );
+
+	file.WriteString(str);
+
+	file.Close();
+	return TRUE;
+}
+#endif
 WORD OpenLan(WORD DeviceIndex,WORD nMode)
 {
     char pcDriverName[MAX_DRIVER_NAME] = "";
@@ -1015,6 +1032,7 @@ WORD		SetTrigLevel(WORD DeviceIndex,WORD nLevel_256,WORD nSetTrigLevel)
     outBuffer=(PUCHAR) malloc(m_nSize);
     outBuffer[0]=0x07;
     outBuffer[1]=0x00;
+	
     outBuffer[2]=0xFF&(unsigned short)(nBigger);
     outBuffer[3]=0xFF&(unsigned short)(nBigger);
     outBuffer[4]=0xff&(unsigned short)(nSmaller);
@@ -1031,6 +1049,12 @@ WORD		SetTrigLevel(WORD DeviceIndex,WORD nLevel_256,WORD nSetTrigLevel)
     outBuffer[15]=0xFF&(unsigned short)(nBigger);
     outBuffer[16]=0xff&(unsigned short)(nSmaller);
     outBuffer[17]=0xff&(unsigned short)(nSmaller);
+	
+/*
+	for(int i=2;i<=17;i++){
+		outBuffer[i]=0xFF&(unsigned short)(i%2==0?nSmaller:nBigger);
+	}
+	*/
     status=sendOutBuffer(DeviceIndex,m_nSize,outBuffer);
     free(outBuffer);
     return status;
@@ -8029,6 +8053,32 @@ DLL_API WORD WINAPI dsoHTSetCHAndTriggerVB(WORD nDeviceIndex,WORD* pCHEnable,WOR
         RelayControl.bTrigFilt = nTriggerFilt;
         RelayControl.nALT = nALT;
     }
+	#ifdef FILE_TEST
+	
+	CString str;
+	str.Format(_T("%d_%d_%d_%d"),pCHEnable[0],pCHEnable[1],pCHEnable[2],pCHEnable[3]);
+	SaveData(_T("pCHEnable"),str);
+	str.Format(_T("%d_%d_%d_%d"),pCHVoltDIV[0],pCHVoltDIV[1],pCHVoltDIV[2],pCHVoltDIV[3]);
+	SaveData(_T("pCHVoltDIV"),str);
+	str.Format(_T("%d_%d_%d_%d"),pCHCoupling[0],pCHCoupling[1],pCHCoupling[2],pCHCoupling[3]);
+	SaveData(_T("pCHCoupling"),str);
+	str.Format(_T("%d_%d_%d_%d"),pCHBWLimit[0],pCHBWLimit[1],pCHBWLimit[2],pCHBWLimit[3]);
+	SaveData(_T("pCHBWLimit"),str);
+
+	str.Format(_T("%d"),nTriggerSource);
+	SaveData(_T("nTriggerSource"),str);
+
+	str.Format(_T("%d"),nTriggerFilt);
+	SaveData(_T("nTriggerFilt"),str);
+
+	str.Format(_T("%d"),nALT);
+	SaveData(_T("nALT"),str);
+
+	str.Format(_T("%d"),nTimeDIV);
+	SaveData(_T("nTimeDIV"),str);
+	
+	
+#endif
     return dsoHTSetCHAndTrigger(nDeviceIndex,&RelayControl,nTimeDIV);
 }
 
@@ -8243,24 +8293,7 @@ DLL_API WORD WINAPI dsoHTStartRoll(WORD nDeviceIndex)
     return status ;
 }
 */
-#ifdef FILE_TEST
-WORD SaveData(CString caption,CString valuestr)
-{
-	char* pFileName = "savedate.txt";	
-	CStdioFile file;
-	CFileException ex;	
-	CString str;
-	str.Format(_T("%s:%s\n"),caption,valuestr);
 
-	file.Open(pFileName ,CFile::modeWrite | CFile::modeCreate|CFile::modeNoTruncate ,&ex);
-	file.SeekToEnd( );
-
-	file.WriteString(str);
-
-	file.Close();
-	return TRUE;
-}
-#endif
 
 
 
@@ -8353,6 +8386,7 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
     status  = ReadHardData_6104(nDeviceIndex,ppData,nActivateCHNum,nActivateCHNum*nReadLen);//第三步 开始读书
 
 #ifdef FILE_TEST
+	/*
 	CString str;
 	str.Format(_T("%d"),nTriggerAddress);
 	SaveData(_T("TriggerAddress"),str);
@@ -8407,10 +8441,9 @@ DLL_API WORD WINAPI dsoHTGetData(WORD nDeviceIndex,WORD* pCH1Data,WORD* pCH2Data
 	str.Format(_T("%d"),pControl->nDriverCode);
 	SaveData(_T("pControl->nDriverCode"),str);
 
-		str.Format(_T("%d"),pControl->nLastAddress);
+	str.Format(_T("%d"),pControl->nLastAddress);
 	SaveData(_T("pControl->nLastAddress"),str);
-
-
+	*/
 
 #endif
     return status ;
@@ -10241,6 +10274,18 @@ WORD        setRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WO
 }
 DLL_API WORD WINAPI dsoHTSetRamAndTrigerControl(WORD DeviceIndex,WORD nTimeDiv,WORD nCHset,WORD nTrigerSource,WORD nPeak)
 {
+	#ifdef FILE_TEST
+	
+	CString str;
+	str.Format(_T("%d"),nTimeDiv);
+	SaveData(_T("nTimeDiv"),str);
+	str.Format(_T("%d"),nCHset);
+	SaveData(_T("nCHset"),str);
+	str.Format(_T("%d"),nTrigerSource);
+	SaveData(_T("nTrigerSource"),str);
+	str.Format(_T("%d"),nPeak);
+	SaveData(_T("nPeak"),str);
+#endif
     return setRamAndTrigerControl(DeviceIndex, nTimeDiv,nCHset,nTrigerSource,nPeak);
 }
 DLL_API WORD WINAPI dsoHTSetTrigerMode(WORD m_nDeviceIndex,WORD nTriggerMode,WORD nTriggerSlop,WORD nTriggerCouple)
