@@ -28,7 +28,7 @@ DLL_API WORD WINAPI dsoHTSetCHPos(WORD nDeviceIndex,WORD* pLevel,WORD nVoltDIV,W
 DLL_API WORD WINAPI dsoHTSetCHDirectLeverPos(WORD nDeviceIndex,WORD nPos,WORD nCH);  //直接用电压值来设定信号的垂直位置
 
 
-DLL_API WORD WINAPI dsoHTSetVTriggerLevel(WORD nDeviceIndex,WORD* pLevel,WORD nPos,WORD nSensitivity);  //设置触发垂直电平位置  实际电压范围0-1012 传入参数0-255是显示电压  OUT:16-00-00-01
+DLL_API WORD WINAPI dsoHTSetVTriggerLevel(WORD nDeviceIndex,WORD nPos,WORD nSensitivity);  //设置触发垂直电平位置  实际电压范围0-1012 传入参数0-255是显示电压  OUT:16-00-00-01
 //设置触发长度和预触发长度//(包括Trigger水平位置)-->参数nBufferLen（内存长度10k） 必须是512的整数倍数,且不能>16M    HTriggerPos：预触发百分比
 DLL_API WORD WINAPI dsoHTSetHTriggerLength(WORD nDeviceIndex,PCONTROLDATA pControl,WORD nCHMod);  //触发和预触发长度  OUT:0f-00  
 //没见到用过即使设置内存长度也没用

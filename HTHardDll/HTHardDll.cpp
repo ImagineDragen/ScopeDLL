@@ -7995,7 +7995,7 @@ WORD        setEdgeTriggerDirect(WORD DeviceIndex,WORD nLevel_256,WORD nCHIndex,
     return status;
 }
 
-DLL_API WORD WINAPI dsoHTSetVTriggerLevel(WORD nDeviceIndex,WORD* pLevel,WORD nPos,WORD nSensitivity)
+DLL_API WORD WINAPI dsoHTSetVTriggerLevel(WORD nDeviceIndex,WORD nPos,WORD nSensitivity)
 {
 
     return SetTrigLevel(nDeviceIndex,nPos,nSensitivity);
